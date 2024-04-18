@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поздравляю с Днем Рождения!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #3EC1D3;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; 
+        }
+        .container {
+            max-width: 1000px;
+            margin: 160px auto 0 auto;
+            background-color: #F6F7D7;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            height: 200px;
+        }
+        .container p {
+        padding-left: 20px; 
+        padding-right: 20px; 
+}
+
+        .firework {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FFD700; 
+            animation: firework 2s ease-out infinite;
+        }
+        .firework1 {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #FF165D; 
+            animation: firework1 2s ease-out infinite;
+        }
+        @keyframes firework {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-800px) rotate(720deg); opacity: 0; }
+        }
+        @keyframes firework1 {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-800px) rotate(720deg); opacity: 0.5; }
+        }
+        h1 {
+            text-align: center;
+            margin-top: 4px;
+            color: #FF165D;
+            
+        }
+        p {
+            text-align: center;
+            font-size: 18px;
+            color: #FF9A00;
+        }
+        .btn {
+            display: block;
+            width: 200px;
+            margin: 42px auto 60px auto;
+            padding: 10px 20px;
+            text-align: center;
+            color: #fff;
+            background-color: #5356FF;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #401F71;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Поздравляю с Днем Рождения!</h1>
+        <p>Артём! Поздравляю тебя с днем рождения xd! Желаю тебе набрать крутых учеников, быстро находить лучшие решения, классного вайба по жизни и успехов во всех начинаниях. Пусть каждый момент будет наполнен счастьем и улыбками!</p>
+        <a href="#" class="btn" id="toggleFireworks">Жми:)</a>
+    </div>
+
+    <script>
+        let isFireworksActive = false;
+        let createFireworkInterval;
+        let createFirework1Interval;
+        const fireworks = []; 
+        const fireworks1 = [];
+
+        function toggleFireworks() {
+        const toggleBtn = document.getElementById('toggleFireworks');
+
+    if (!isFireworksActive) {
+        toggleBtn.textContent = 'Остановить салют';
+        fireworks.forEach(firework => firework.style.animationPlayState = 'running');
+        fireworks.forEach(firework1 => firework1.style.animationPlayState = 'running');
+        createFireworkInterval = setInterval(createFirework, 20);
+        createFirework1Interval = setInterval(createFirework1, 50);
+        
+    } else {
+        toggleBtn.textContent = 'Запустить салют!';
+        fireworks.forEach(firework => firework.style.animationPlayState = 'paused');
+        fireworks1.forEach(firework1 => firework1.style.animationPlayState = 'paused');
+        setTimeout(() => {
+            clearInterval(createFireworkInterval);
+            clearInterval(createFirework1Interval);
+            document.querySelectorAll('.firework, .firework1').forEach(firework => firework.remove());
+            fireworks.length = 0;
+            fireworks1.forEach(firework1 => firework1.remove());
+            fireworks1.length = 0;
+        }, 10);
+    }
+
+    isFireworksActive = !isFireworksActive;
+}
+
+
+
+
+        document.getElementById('toggleFireworks').addEventListener('click', toggleFireworks);
+
+        const maxFireworks = 220;
+        function createFirework() {
+            if (!isFireworksActive) return;
+            if (fireworks.length < maxFireworks) {
+                const firework = document.createElement('div');
+                firework.classList.add('firework');
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight + 120 + 'px';
+                document.body.appendChild(firework);
+
+                fireworks.push(firework);
+                firework.addEventListener('animationend', () => {
+                    firework.remove();
+                    fireworks.splice(fireworks.indexOf(firework), 1);
+                });
+            }
+        }
+
+        const maxFireworks1 = 80;
+        function createFirework1() {
+            if (!isFireworksActive) return;
+            if (fireworks1.length < maxFireworks1) {
+                const firework1 = document.createElement('div');
+                firework1.classList.add('firework1');
+                firework1.style.left = Math.random() * window.innerWidth + 'px';
+                firework1.style.top = Math.random() * window.innerHeight + 120 + 'px';
+                document.body.appendChild(firework1);
+
+                fireworks1.push(firework1);
+                firework1.addEventListener('animationend', () => {
+                    firework1.remove();
+                    fireworks1.splice(fireworks1.indexOf(firework1), 1);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
